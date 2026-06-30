@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block title %}About - Weather Prediction{% endblock %}
+
+{% block content %}
+
+<style>
+  /* ── Hero Banner ── */
+  .about-hero {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 260px;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .about-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80') center/cover no-repeat;
+    filter: brightness(0.45);
+  }
+  .about-hero-content {
+    position: relative;
+    color: #fff;
+    padding: 0 1.5rem;
+  }
+  .about-hero-content h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: 0.4rem;
+  }
+  .about-hero-content p {
+    font-size: 1.05rem;
+    opacity: 0.88;
+  }
+
+  /* ── Grid Layout ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Cards ── */
+  .about-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  .about-card-header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 1rem 1.4rem;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .about-card-body {
+    padding: 1.4rem;
+  }
+
+  /* ── App Info ── */
+  .app-info-text {
+    color: #444;
+    line-height: 1.75;
+    margin-bottom: 0.85rem;
+  }
+  .tech-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .chip {
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: #e8f0fe;
+    color: #1e3c72;
+    border: 1px solid #c2d0f5;
+  }
+
+  /* ── Personal Info ── */
+  .profile-section {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+  }
+  .profile-photo-wrap {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #00d4ff;
+    background: #e8f0fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+  }
+  .profile-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .profile-details h3 {
+    color: #1e3c72;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .profile-details .role-badge {
+    display: inline-block;
+    background: #00d4ff22;
+    color: #006080;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.2rem 0.7rem;
+    border-radius: 12px;
+    border: 1px solid #00d4ff88;
+    margin-bottom: 0.6rem;
+  }
+  .profile-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .profile-info-list li {
+    font-size: 0.9rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .profile-info-list li span.icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+  }
+  .social-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .social-btn {
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    color: #fff;
+  }
+  .social-btn:hover { opacity: 0.85; }
+  .social-btn.github  { background: #333; }
+  .social-btn.linkedin{ background: #0077b5; }
+  .social-btn.email   { background: #e34133; }
+
+  /* ── Nature Gallery ── */
+  .nature-gallery {
+    grid-column: 1 / -1;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .gallery-img {
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+  .gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .gallery-img:hover img { transform: scale(1.07); }
+  .gallery-img .img-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 0.6rem 0.4rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gallery-img:hover .img-label { opacity: 1; }
+
+  /* ── Rating Section ── */
+  .rating-section {
+    grid-column: 1 / -1;
+  }
+  .rating-overview {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1.4rem;
+    flex-wrap: wrap;
+  }
+  .rating-big {
+    text-align: center;
+    min-width: 80px;
+  }
+  .rating-big .score {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1e3c72;
+    line-height: 1;
+  }
+  .rating-big .stars-display {
+    color: #f5a623;
+    font-size: 1.2rem;
+    margin: 0.2rem 0;
+  }
+  .rating-big .total {
+    font-size: 0.8rem;
+    color: #888;
+  }
+  .rating-bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 180px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  .bar-row .bar-label { width: 48px; flex-shrink: 0; }
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: #e8ecf5;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1e3c72, #00d4ff);
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+  .bar-row .bar-count { width: 22px; text-align: right; flex-shrink: 0; }
+
+  /* User Rate Widget */
+  .rate-widget {
+    border-top: 1px solid #eee;
+    padding-top: 1.2rem;
+    margin-top: 1rem;
+  }
+  .rate-widget p {
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+  .star-picker {
+    display: flex;
+    gap: 0.35rem;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-bottom: 0.8rem;
+  }
+  .star-picker span {
+    color: #ddd;
+    transition: color 0.15s, transform 0.15s;
+    user-select: none;
+  }
+  .star-picker span.lit   { color: #f5a623; }
+  .star-picker span:hover { transform: scale(1.2); }
+  .rate-submit {
+    padding: 0.5rem 1.4rem;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s, transform 0.15s;
+    box-shadow: 0 4px 12px rgba(30,60,114,0.3);
+  }
+  .rate-submit:hover { opacity: 0.88; transform: translateY(-2px); }
+  .rate-thanks {
+    display: none;
+    margin-top: 0.6rem;
+    color: #1a7a1a;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  /* ── Back Button ── */
+  .about-footer-btn {
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+<!-- Hero -->
+<div class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-hero-content">
+    <h2>🌤️ About This App</h2>
+    <p>Real-time weather for anywhere on Earth — built with ❤️</p>
+  </div>
+</div>
+
+<div class="about-grid">
+
+  <!-- App Info Card -->
+  <div class="about-card">
+    <div class="about-card-header">📱 About Weather Prediction</div>
+    <div class="about-card-body">
+      <p class="app-info-text">
+        Weather Prediction is a web app that gives you real-time weather conditions
+        and a 5-day forecast for any city in the world. Type a city name and instantly
+        get temperature, humidity, wind speed, sunrise/sunset times, and what to expect
+        over the coming days.
+      </p>
+      <p class="app-info-text">
+        Live data is pulled from the <strong>OpenWeatherMap API</strong>, processed on
+        the backend, and delivered cleanly to your browser — no page reloads, no clutter.
+      </p>
+      <div class="tech-chips">
+        <span class="chip">🐍 Flask</span>
+        <span class="chip">☁️ OpenWeatherMap API</span>
+        <span class="chip">⚡ Vanilla JS</span>
+        <span class="chip">🎨 CSS3</span>
+        <span class="chip">🐍 Python 3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal Info Card -->
+  <div class="about-card">
+    <div class="about-card-header">👤 Developer</div>
+    <div class="about-card-body">
+      <div class="profile-section">
+        <!-- Replace the emoji below with an <img src="..."> tag pointing to your photo -->
+        <div class="profile-photo-wrap">🧑‍💻</div>
+        <div class="profile-details">
+          <h3>Padsala krish</h3>
+          <span class="role-badge">Full-Stack Developer</span>
+          <ul class="profile-info-list">
+            <li><span class="icon">📍</span> Ahmedabad, Gujarat, India</li>
+            <li><span class="icon">🎓</span> B.Tech in Information Technology</li>
+          </ul>
+        </div>
+      </div>
+      <div class="social-row">
+        <a href="#" class="social-btn github">🐙 GitHub</a>
+        <a href="#" class="social-btn linkedin">💼 LinkedIn</a>
+        <a href="mailto:you@email.com" class="social-btn email">✉️ Email</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nature Gallery (full-width) -->
+  <!-- <div class="about-card nature-gallery">
+    <div class="about-card-header">🌿 Nature &amp; Weather Inspiration</div>
+    <div class="about-card-body">
+      <div class="gallery-grid">
+        <div class="gallery-img">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=75" alt="Mountain sunrise" loading="lazy">
+          <div class="img-label">Mountain Sunrise</div>
+        </div>
+        <div class="gallery-img">
+          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&q=75" alt="Stormy clouds" loading="lazy">
+          <div class="img-label">Stormy Skies</div>
+        </div>
+        <div class="gallery-img">
+          <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=75" alt="Foggy forest" loading="lazy">
+          <div class="img-label">Misty Forest</div>
+        </div>
+        <div class="gallery-img">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=75" alt="Snow mountains" loading="lazy">
+          <div class="img-label">Snowy Peaks</div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Rating Section (full-width) -->
+  <div class="about-card rating-section">
+    <div class="about-card-header">⭐ App Ratings &amp; Reviews</div>
+    <div class="about-card-body">
+
+      <div class="rating-overview">
+        <div class="rating-big">
+          <div class="score">4.7</div>
+          <div class="stars-display">★★★★★</div>
+          <div class="total">10 ratings</div>
+        </div>
+        <div class="rating-bars">
+          <div class="bar-row">
+            <span class="bar-label">5 ★</span>
+            <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+            <span class="bar-count">1</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">4 ★</span>
+            <div class="bar-track"><div class="bar-fill" style="width:50%"></div></div>
+            <span class="bar-count">5</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">3 ★</span>
+            <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+            <span class="bar-count">2</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">2 ★</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 20%"></div></div>
+            <span class="bar-count">2</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">1 ★</span>
+            <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+            <span class="bar-count">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rate it yourself -->
+      <div class="rate-widget">
+        <p>Rate this app:</p>
+        <div class="star-picker" id="starPicker">
+          <span data-val="1">★</span>
+          <span data-val="2">★</span>
+          <span data-val="3">★</span>
+          <span data-val="4">★</span>
+          <span data-val="5">★</span>
+        </div>
+        <button class="rate-submit" onclick="submitRating()">Submit Rating</button>
+        <div class="rate-thanks" id="rateThanks">🎉 Thanks for your feedback!</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="about-footer-btn">
+  <a href="/" class="btn">← Back to Home</a>
+</div>
+
+<script>
+  const picker = document.getElementById('starPicker');
+  const stars  = picker.querySelectorAll('span');
+  let chosen   = 0;
+
+  stars.forEach(s => {
+    s.addEventListener('mouseover', () => {
+      const v = +s.dataset.val;
+      stars.forEach(x => x.classList.toggle('lit', +x.dataset.val <= v));
+    });
+    s.addEventListener('click', () => { chosen = +s.dataset.val; });
+  });
+
+  picker.addEventListener('mouseleave', () => {
+    stars.forEach(x => x.classList.toggle('lit', +x.dataset.val <= chosen));
+  });
+
+  function submitRating() {
+    if (!chosen) { alert('Please select a star rating first!'); return; }
+    document.getElementById('rateThanks').style.display = 'block';
+  }
+</script>
+
+{% endblock %}

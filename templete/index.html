@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h2>Get Real-Time Weather Information</h2>
+    <p>Search for any city to see current weather and 5-day forecast</p>
+</div>
+
+<div class="search-section">
+    <input 
+        type="text" 
+        id="cityInput" 
+        placeholder="Enter city name..." 
+        autocomplete="off"
+    >
+    <button onclick="searchWeather()">Search</button>
+</div>
+
+<div id="errorMessage" class="error-message" style="display:none;"></div>
+
+<div id="weatherContainer" class="weather-container" style="display:none;">
+    <div class="weather-main">
+        <div class="current-weather">
+            <h3 id="cityName"></h3>
+            <img id="weatherIcon" src="" alt="Weather icon" class="weather-icon-large">
+            <div class="temperature">
+                <span id="temperature"></span>°C
+            </div>
+            <p id="description"></p>
+            <p id="feelsLike"></p>
+        </div>
+
+        <div class="weather-details">
+            <div class="detail-item">
+                <span class="label">Humidity</span>
+                <span id="humidity" class="value"></span>%
+            </div>
+            <div class="detail-item">
+                <span class="label">Pressure</span>
+                <span id="pressure" class="value"></span> hPa
+            </div>
+            <div class="detail-item">
+                <span class="label">Wind Speed</span>
+                <span id="windSpeed" class="value"></span> m/s
+            </div>
+            <div class="detail-item">
+                <span class="label">Visibility</span>
+                <span id="visibility" class="value"></span> km
+            </div>
+            <div class="detail-item">
+                <span class="label">Sunrise</span>
+                <span id="sunrise" class="value"></span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Sunset</span>
+                <span id="sunset" class="value"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="forecast-section">
+        <h3>5-Day Forecast</h3>
+        <div id="forecastContainer" class="forecast-grid"></div>
+    </div>
+</div>
+{% endblock %}
