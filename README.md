@@ -1,0 +1,1 @@
+Developed a full-stack Weather Forecast Web Application using Flask, Python, HTML, CSS, and JavaScript. Integrated the OpenWeatherMap API to fetch and display live weather conditions and a 5-day forecast. Implemented responsive UI, API handling, error management, and secure environment variable configuration for API keys.
